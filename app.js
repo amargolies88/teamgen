@@ -25,8 +25,9 @@ function beginQuestions(firstQuestion) {
             },
         ])
         .then(answers => {
+            fresh = {};
             if (!answers.continueEntering) {
-                // finished();
+                finished(team);
                 asking = false;
             } else {
                 inquirer
@@ -35,13 +36,10 @@ function beginQuestions(firstQuestion) {
                             type: "list",
                             name: "memberRole",
                             message: "Select role",
-                            choices: ["Manager", "Engineer", "Intern"],
+                            choices: (managerExists) ? ["Engineer", "Intern"] : ["Manager", "Engineer", "Intern"],
                         }
-
                     ])
                     .then(answers => {
-                        console.log(`member role: ${answers.memberRole}`);
-                        console.log(`manager exists? ${managerExists}`);
                         if (answers.memberRole != "Manager" || !managerExists) {
                             fresh.role = answers.memberRole;
                             if (answers.memberRole === "Manager") managerExists = true;
@@ -84,7 +82,6 @@ function beginQuestions(firstQuestion) {
                                                 type: "input",
                                                 name: "uniqueInfo",
                                                 message: "Enter engineer's Github",
-                                                filter: value => `https://github.com/${value}`
                                             };
                                             break;
                                         case "Intern":
@@ -104,17 +101,15 @@ function beginQuestions(firstQuestion) {
                                                 }
                                             };
                                     }
-
                                     inquirer
                                         .prompt(uniqueQuestion)
                                         .then(answers => {
                                             fresh.unique = answers.uniqueInfo;
-                                            console.log('New member:');
+                                            console.log('New member added:');
                                             console.log(fresh);
                                             team.push(fresh);
-                                            beginQuestions("Add a team member?");
+                                            beginQuestions("Add another team member?");
                                         });
-
                                 });
                         } else {
                             beginQuestions("Error: This team already has a manager! Would you like to continue adding members?");
@@ -124,10 +119,57 @@ function beginQuestions(firstQuestion) {
         });
 }
 
+function genMain(team) {
+
+}
+
+function genEngineer(engineer) {
+
+}
+
+function genManager(manager) {
+
+}
+
+function genIntern(intern) {
+
+}
+
+function finished(team) {
+    let sortedTeam = [];
+    let htmlArray = [];
+    // Sort team members into new array (Manager > Engineer > Intern)
+    team.forEach(member => {
+        if (member.role === "Manager") sortedTeam.push(member);
+    });
+    team.forEach(member => {
+        if (member.role === "Engineer") sortedTeam.push(member);
+    });
+    team.forEach(member => {
+        if (member.role === "Intern") sortedTeam.push(member);
+    });
+
+    for (let i = 0; i < sortedTeam.length; i++) {
+        const member = sortedTeam[i];
+        switch (member.role) {
+            case "Engineer":
+
+                break;
+            case "Manager":
+
+                break;
+            case "Intern":
+
+                break;
+        }
+
+    }
+    // let managerHTML = genManager();
+    // let internHTML;
+    // let engineerHTML;
+    // console.log("finished adding members")
+    // console.log(team);
+    // genMain(team);
+}
 
 beginQuestions("Add a team member?");
-
-
-function finished() {
-    console.log("finished adding members")
-}
