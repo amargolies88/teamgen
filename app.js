@@ -36,7 +36,7 @@ function beginQuestions(firstQuestion) {
                             type: "list",
                             name: "memberRole",
                             message: "Select role",
-                            choices: (managerExists) ? ["Engineer", "Intern"] : ["Manager", "Engineer", "Intern"],
+                            choices: (managerExists) ? ["Engineer", "Intern"] : ["Manager"]
                         }
                     ])
                     .then(answers => {
