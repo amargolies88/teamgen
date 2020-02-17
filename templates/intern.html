@@ -11,38 +11,49 @@
 </head>
 
 <body>
-    <div class="card" style="width: 18rem;">
-        <div class="card-body">
 
-            <div class="row">
-                <div class="col">
-                    <h3 class="card-title">Name</h3>
-                    <h5 class="card-title">Role</h5>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col">
-                    <div class="row">
-                        <div class="col">
-                            <p>ID:</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>Email:</p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <p>School:</p>
-                        </div>
+    <!--BEGIN MARKUP -->
+    <div class="col">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col">
+                        <h3 class="card-title">${member.getName()}</h3>
+                        <h5 class="card-title">${member.getRole()}</h5>
                     </div>
                 </div>
-            </div>
 
+                <div class="row">
+                    <div class="col">
+
+                        <div class="row">
+                            <div class="col">
+                                <p>ID: ${member.getId()}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <p>Email: ${member.getEmail()}</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <p>School: ${member.getSchool()}</a>
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    <!-- END MARKUP -->
+
 
 </body>
 
