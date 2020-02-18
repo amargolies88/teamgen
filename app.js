@@ -6,18 +6,24 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 
 
-// Data Variables
+// ---Global Variables----
 
 // Team Array
 let team = [];
 
-// Inquirer Prompt:
-let asking = true;
+// Track wether a manager already exists
 let managerExists = false;
 
+// Fresh member object for tracking user's input of team member
 let fresh = {};
 
+
+
+// ----Functions----
+
+// Main prompt function
 function beginQuestions(firstQuestion) {
+    // Ask first question
     inquirer
         .prompt([
             {
@@ -28,23 +34,31 @@ function beginQuestions(firstQuestion) {
         ])
         .then(answers => {
             fresh = {};
+            // If user answers no
             if (!answers.continueEntering) {
+                // execute finished team (generates html)
                 finished(team);
-                asking = false;
+                // If yes, continue prompt to get information regarding new member
             } else {
+                // Get member's role
                 inquirer
                     .prompt([
                         {
                             type: "list",
                             name: "memberRole",
                             message: "Select role",
+                            // Use global boolean to determine choices
                             choices: (managerExists) ? ["Engineer", "Intern"] : ["Manager"]
                         }
                     ])
                     .then(answers => {
+                        // If user did not select manager or manager does not exist already
                         if (answers.memberRole != "Manager" || !managerExists) {
+                            // Store role in fresh object property
                             fresh.role = answers.memberRole;
+                            // Indicate manager exists if member's role is manager
                             if (answers.memberRole === "Manager") managerExists = true;
+                            // Continue asking questions regarding member
                             inquirer
                                 .prompt([
                                     {
@@ -74,10 +88,14 @@ function beginQuestions(firstQuestion) {
                                         }
                                     }
                                 ]).then(answers => {
+                                    // Store answers in fresh object properties
                                     fresh.name = answers.memberName;
                                     fresh.id = answers.memberId;
                                     fresh.email = answers.memberEmail;
+
                                     let uniqueQuestion;
+
+                                    // Set unique question object based on current member's role
                                     switch (fresh.role) {
                                         case "Engineer":
                                             uniqueQuestion = {
@@ -104,9 +122,12 @@ function beginQuestions(firstQuestion) {
                                             };
                                     }
                                     inquirer
+                                        // Ask the unique question
                                         .prompt(uniqueQuestion)
                                         .then(answers => {
+                                            // Store in fresh object property
                                             fresh.unique = answers.uniqueInfo;
+                                            // Create new employee from fresh object properties based on member's role
                                             let newMember;
                                             switch (fresh.role) {
                                                 case "Engineer":
@@ -121,11 +142,13 @@ function beginQuestions(firstQuestion) {
                                             }
                                             console.log('New member added:');
                                             console.log(newMember);
+                                            // Add the new member to the team array
                                             team.push(newMember);
+                                            // Repeat this function from the beginning
                                             beginQuestions("Add another team member?");
                                         });
                                 });
-                        } else {
+                        } else { // if the user selected manager role and a manager already exists
                             beginQuestions("Error: This team already has a manager! Would you like to continue adding members?");
                         }
                     });
@@ -133,6 +156,7 @@ function beginQuestions(firstQuestion) {
         });
 }
 
+// Function to generate html code for an engineer
 function genEngineer(member) {
     return `
 
@@ -176,6 +200,7 @@ function genEngineer(member) {
                 </div>`
 }
 
+// Function to genreate html code for a manager
 function genManager(member) {
     return `
 
@@ -219,6 +244,7 @@ function genManager(member) {
                 </div>`
 }
 
+// Function to genreate html code for an intern
 function genIntern(member) {
     return `
 
@@ -262,6 +288,7 @@ function genIntern(member) {
                 </div>`
 }
 
+// Function to generate complete html code to be written to './output/team.html'
 function genMain(cardsHTML) {
     return `
 <!DOCTYPE html>
@@ -289,21 +316,25 @@ function genMain(cardsHTML) {
 </html>`
 }
 
+// Function to be executed once user is finished entering team members should stop asking questions and generate team.html to display all user's inputted team members
 function finished(team) {
     let sortedTeam = [];
-    let htmlArray = [];
     // Sort team members into new array (Manager > Engineer > Intern)
+    // Push each manager to team array
     team.forEach(member => {
         console.log(member);
         if (member.getRole() === "Manager") sortedTeam.push(member);
     });
+    // Push each engineer to team array
     team.forEach(member => {
         if (member.getRole() === "Engineer") sortedTeam.push(member);
     });
+    // Push each intern to team array
     team.forEach(member => {
         if (member.getRole() === "Intern") sortedTeam.push(member);
     });
 
+    // Concatinate each member's html code and store in variable
     let cardsHTML = "";
     for (let i = 0; i < sortedTeam.length; i++) {
         const member = sortedTeam[i];
@@ -320,23 +351,24 @@ function finished(team) {
         }
     }
 
+    // Generate final html code and store in variable
     let mainHTML = genMain(cardsHTML);
+    // Write html code string to file
     saveHTML(mainHTML);
 
 }
 
+// Function to write given string to ./output/team.html
 function saveHTML(html) {
     fs.writeFile("./output/team.html", html, function (err) {
-
         if (err) {
             return console.log(err);
         }
-
         console.log("Success!");
-
     });
-
 }
 
-beginQuestions("Add a team member?");
 
+
+// First function execution
+beginQuestions("Add a team member?");
