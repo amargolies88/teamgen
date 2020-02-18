@@ -28,40 +28,46 @@ You must have node.js to run this application. Download node.js [here](https://n
 * Wait for the node packages to finish installing.
 
 ## Usage
+![Demno](docs/shots/demo.gif)
 
 ### Run Using Node.js
+![Demno](docs/shots/04.png)
 Using command prompt or command-line terminal of your choice navigate to the application's root directory and run the command "node app.js"
 
 ### Adding team members
 
 ##### Would you like to add a team member?
+![Demno](docs/shots/05.png)
 You will be asked if you would like to add a team member. Enter 'y' or leave blank for yes and 'n' for no.
 #### Select team member's role
+![Demno](docs/shots/06.png)
 Only the 'Manager' role is available as a choice when adding the first team member. Only the roles 'Engineer' and 'Intern' are available choices for every team member added after the manager. Use the arrow keys to choose between the role options and hit enter or return to select.
 #### Enter Name
+![Demno](docs/shots/07.png)
 Enter the name of the team member you will be adding. 
 #### Enter ID
+![Demno](docs/shots/08.png)
 Enter the ID number you would like to assign to this team member. The application will only allow positive integers less than 9007199254740992
 #### Enter Email
+![Demno](docs/shots/09.png)
 Enter this member's email address.
 #### Enter Unique Information
+![Demno](docs/shots/10.png)
 Each role has one unique property.
 * Manager: enter manager's office number
 * Engineer: enter engineer's github username
 * Intern: enter name of intern's school
 #### Add another team member?
+![Demno](docs/shots/11.png)
 Your previous team member was successfully added. Now you can choose to add another team member (y) or finish adding team members (n).
 
 ### Generate team.html
+![Demno](docs/shots/12.png)
 Once you have finished adding team members answer no (n) when asked if you would like to add another team member. Once you have answered no an html file will be generated and placed in the output folder. Open this file to view your new team.
-
-##### Example:
-![PDF Example](docs/facebook.png)
-
 
 ## Credits
 
-[Node.js](https://nodejs.org/en/)
+[NodeJS](https://nodejs.org/en/)
 
 [Inquirer](https://www.npmjs.com/package/inquirer)
 
