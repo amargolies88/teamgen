@@ -117,7 +117,7 @@ function beginQuestions(firstQuestion) {
                                                 name: "uniqueInfo",
                                                 message: "Enter manager's office number",
                                                 validate: function (value) {
-                                                    return (value == parseInt(value)) ? true : "Please enter a valid ID";
+                                                    return (value == parseInt(value)) ? true : "ID must be a positive integer";
                                                 }
                                             };
                                     }
